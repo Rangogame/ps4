@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" manifest="cache.manifest">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>رنگو گیم | اجرای زنجیره Lapse — 11.00-13.00</title>
+<link rel="icon" type="image/png" href="../../logo.png">
+<style>
+    :root{
+        --green: #10b981; --green-light:#34d399; --green-dark:#047857;
+        --green-glow:rgba(16,185,129,.28); --green-bg:rgba(16,185,129,.10); --green-bd:rgba(16,185,129,.35);
+        --bg:#f6fbf8; --panel:rgba(255,255,255,.92); --panel-2:rgba(255,255,255,.98);
+        --line:rgba(6,54,38,.10); --line-strong:rgba(6,54,38,.18);
+        --text:#0c221a; --muted:#3f5a50; --dim:#6d8479;
+        --warn:#b45309; --warn-strong:#92400e; --warn-bg:rgba(251,191,36,.14); --warn-bd:rgba(180,83,9,.35);
+        --danger:#dc2626; --danger-bg:rgba(220,38,38,.10); --danger-bd:rgba(220,38,38,.35);
+        --shadow-1:0 6px 18px rgba(6,54,38,.08); --shadow-2:0 14px 34px rgba(6,54,38,.12);
+    }
+    *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    html,body{ margin:0; padding:0; }
+    body{
+        background-image:url('../../bg.jpg');
+        background-position:center center;
+        background-size:cover;
+        background-repeat:no-repeat;
+        background-attachment:fixed;
+        background-color:var(--bg);
+        color:var(--text);
+        font-family:Tahoma, "Iranian Sans", Arial, sans-serif;
+        font-size:16px; line-height:1.8;
+        min-height:100vh; overflow:hidden;
+    }
+    a{ color:inherit; text-decoration:none; }
+    .wrap{
+        max-width:1220px; margin:0 auto; padding:14px 26px 14px;
+        width:min(100% - 52px, 1220px);
+        height:100vh; display:flex; flex-direction:column; gap:12px;
+    }
+    .header{
+        display:flex; align-items:center; justify-content:space-between; gap:12px;
+        padding:12px 20px;
+        background:var(--panel);
+        backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+        border:1px solid var(--line); border-radius:14px;
+        position:relative; overflow:hidden; box-shadow:var(--shadow-1);
+        flex:0 0 auto;
+    }
+    .header::before{
+        content:""; position:absolute; top:0; right:0; width:100%; height:3px;
+        background:linear-gradient(90deg, transparent, var(--green), transparent);
+        opacity:.85;
+    }
+    .brand-text .t1{
+        font-size:18px; font-weight:bold;
+        background:linear-gradient(90deg, var(--green-dark), var(--green));
+        -webkit-background-clip:text; background-clip:text;
+        -webkit-text-fill-color:transparent; line-height:1.2;
+    }
+    .brand-text .t2{ font-size:11px; color:var(--dim); margin-top:1px; }
+    .chain-badge{
+        display:flex; align-items:center; gap:8px; font-size:12px;
+        color:var(--green-dark); padding:6px 14px;
+        border:1px solid var(--green-bd); border-radius:999px;
+        background:var(--green-bg); flex:0 0 auto; font-weight:500;
+    }
+    .chain-badge i{
+        display:inline-block; width:8px; height:8px; border-radius:50%;
+        background:var(--green); box-shadow:0 0 10px var(--green-glow);
+        animation:pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse{ 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    .status-bar{
+        margin-top:0; padding:14px 22px;
+        background:var(--panel);
+        backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+        border:1px solid var(--green-bd); border-radius:14px;
+        display:flex; align-items:center; gap:12px;
+        box-shadow:var(--shadow-1); flex:0 0 auto;
+        transition:border-color .25s, background-color .25s;
+    }
+    .status-bar.warn{
+        border-color:var(--warn-bd);
+        background:linear-gradient(180deg, var(--warn-bg), var(--panel));
+    }
+    .status-bar.bad{
+        border-color:var(--danger-bd);
+        background:linear-gradient(180deg, var(--danger-bg), var(--panel));
+    }
+    .status-bar .dot{
+        width:10px; height:10px; border-radius:50%;
+        background:var(--green); box-shadow:0 0 12px var(--green-glow);
+        animation:pulse 1.6s ease-in-out infinite; flex:0 0 auto;
+    }
+    .status-bar.warn .dot{ background:var(--warn); box-shadow:0 0 12px rgba(180,83,9,.4); }
+    .status-bar.bad  .dot{ background:var(--danger); box-shadow:0 0 12px rgba(220,38,38,.4); }
+    #state{
+        font-size:17px; font-weight:600; color:var(--green-dark);
+        line-height:1.3; margin:0; flex:1 1 auto; min-width:0;
+        font-family:Consolas, "Liberation Mono", monospace;
+        direction:ltr; text-align:right;
+    }
+    #state.warn{ color:var(--warn-strong); }
+    #state.bad{ color:var(--danger); }
+    #state.ok{ color:var(--green-dark); }
+
+    #out{
+        flex:1 1 auto; margin-top:0; padding:16px 20px;
+        background:var(--panel);
+        backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+        border:1px solid var(--line); border-radius:14px;
+        color:var(--text);
+        font-family:Consolas, "Liberation Mono", monospace;
+        font-size:13px; line-height:1.55;
+        overflow-y:auto; white-space:pre-wrap; word-break:break-word;
+        box-shadow:var(--shadow-2);
+        direction:ltr; text-align:left; min-height:0;
+    }
+    #out::-webkit-scrollbar{ width:8px; }
+    #out::-webkit-scrollbar-track{ background:rgba(6,54,38,.05); border-radius:4px; }
+    #out::-webkit-scrollbar-thumb{ background:var(--green-bd); border-radius:4px; }
+    #out::-webkit-scrollbar-thumb:hover{ background:var(--green); }
+
+    @media (max-width:760px){
+        body{ background-attachment:scroll; }
+        .wrap{ padding:8px 10px; width:min(100% - 20px, 560px); }
+        .header{ padding:10px 14px; border-radius:12px; }
+        .brand-text .t1{ font-size:15.5px; }
+        .chain-badge{ font-size:11px; padding:5px 10px; }
+        .status-bar{ padding:12px 16px; }
+        #state{ font-size:14px; }
+        #out{ font-size:12px; padding:14px 16px; }
+    }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <header class="header">
+        <div class="brand-text">
+            <div class="t1">رنگو گیم</div>
+            <div class="t2">اجرای زنجیره Lapse</div>
+        </div>
+        <div class="chain-badge"><i></i>Lapse Chain</div>
+    </header>
+
+    <div class="status-bar" id="statusBar">
+        <span class="dot"></span>
+        <div id="state">loading lapse chain...</div>
+    </div>
+
+    <div id="out"></div>
+</div>
+
+<script type="module">import "./chain_lapse.js";</script>
+<script>
+// رنگو گیم: auto-reload محدود. منطق اصلی chain_lapse.js دست‌نخورده.
+(function () {
+    var KEY = "pspulse-slopkit-reloads";
+    var MAX = 2;
+    var WINDOW_MS = 10 * 60 * 1000;
+    var handled = false;
+    var statusBar = document.getElementById("statusBar");
+
+    function readBudget() {
+        var rec = null;
+        try { rec = JSON.parse(sessionStorage.getItem(KEY) || "null"); } catch (e) { rec = null; }
+        var now = Date.now();
+        if (!rec || typeof rec.n !== "number" || (now - rec.t) > WINDOW_MS) return { n: 0, t: now };
+        return rec;
+    }
+    function spendBudget() {
+        var rec = readBudget();
+        rec.n++;
+        rec.t = Date.now();
+        try {
+            sessionStorage.setItem(KEY, JSON.stringify(rec));
+            var check = JSON.parse(sessionStorage.getItem(KEY) || "null");
+            if (check && check.n === rec.n) return rec;
+        } catch (e) {}
+        return null;
+    }
+
+    setInterval(function () {
+        try {
+            var st = document.getElementById("state");
+            var out = document.getElementById("out");
+            var txt = out ? out.textContent : "";
+
+            // رنگ‌بندی نوار وضعیت
+            if (statusBar) {
+                statusBar.classList.remove("warn", "bad");
+                if (st) st.classList.remove("warn", "bad", "ok");
+                if (st && st.className.indexOf("ok") !== -1) {
+                    if (st) st.classList.add("ok");
+                } else if (st && st.textContent.indexOf("FAILED") !== -1) {
+                    statusBar.classList.add("bad");
+                    if (st) st.classList.add("bad");
+                } else if (/reload|attempt-ceiling/i.test(txt)) {
+                    statusBar.classList.add("warn");
+                    if (st) st.classList.add("warn");
+                }
+            }
+
+            if (handled) return;
+            if (st && st.className.indexOf("ok") !== -1) {
+                try { sessionStorage.removeItem(KEY); } catch (e) {}
+                handled = true;
+                return;
+            }
+            if (!st || st.textContent.indexOf("FAILED") === -1) return;
+            if (txt.indexOf("attempt-ceiling") === -1) return;
+            handled = true;
+            var rec = spendBudget();
+            if (!rec || rec.n > MAX) return;
+            st.textContent = "heap layout missed -- reloading for a fresh heap (" + rec.n + "/2)...";
+            st.className = "warn";
+            if (statusBar) statusBar.classList.add("warn");
+            setTimeout(function () { location.reload(); }, 2000);
+        } catch (e) { /* never break the exploit page */ }
+    }, 3000);
+})();
+</script>
+</body>
+</html>

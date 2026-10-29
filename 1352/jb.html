@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" manifest="cache.manifest">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>رنگو گیم | اجرای جیلبریک 13.02-13.52 GoldHEN</title>
+<link rel="icon" type="image/png" href="../logo.png">
+<style>
+    :root{
+        --green:        #10b981;
+        --green-light:  #34d399;
+        --green-dark:   #047857;
+        --green-glow:   rgba(16,185,129,.28);
+        --green-bg:     rgba(16,185,129,.10);
+        --green-bd:     rgba(16,185,129,.35);
+
+        --bg:           #f6fbf8;
+        --panel:        rgba(255,255,255,.92);
+        --panel-2:      rgba(255,255,255,.98);
+        --line:         rgba(6,54,38,.10);
+        --line-strong:  rgba(6,54,38,.18);
+
+        --text:         #0c221a;
+        --muted:        #3f5a50;
+        --dim:          #6d8479;
+
+        --warn:         #b45309;
+        --warn-strong:  #92400e;
+        --warn-bg:      rgba(251,191,36,.14);
+        --warn-bd:      rgba(180,83,9,.35);
+
+        --danger:       #dc2626;
+        --danger-bg:    rgba(220,38,38,.10);
+        --danger-bd:    rgba(220,38,38,.35);
+
+        --shadow-1:     0 6px 18px rgba(6,54,38,.08);
+        --shadow-2:     0 14px 34px rgba(6,54,38,.12);
+    }
+
+    *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    html,body{ margin:0; padding:0; }
+
+    body{
+        background-image: url('../bg.jpg');
+        background-position: center center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-color: var(--bg);
+
+        color:var(--text);
+        font-family:Tahoma, "Iranian Sans", Arial, sans-serif;
+        font-size:16px;
+        line-height:1.8;
+        min-height:100vh;
+        overflow:hidden;
+    }
+    a{ color:inherit; text-decoration:none; }
+
+    .wrap{
+        max-width:1220px;
+        margin:0 auto;
+        padding:14px 26px 14px;
+        width:min(100% - 52px, 1220px);
+        height:100vh;
+        display:flex;
+        flex-direction:column;
+        gap:12px;
+    }
+
+    /* ============== هدر ============== */
+    .header{
+        display:flex; align-items:center; justify-content:space-between;
+        gap:12px;
+        padding:12px 20px;
+        background:var(--panel);
+        backdrop-filter:blur(16px);
+        -webkit-backdrop-filter:blur(16px);
+        border:1px solid var(--line);
+        border-radius:14px;
+        position:relative;
+        overflow:hidden;
+        box-shadow:var(--shadow-1);
+        flex:0 0 auto;
+    }
+    .header::before{
+        content:"";
+        position:absolute; top:0; right:0;
+        width:100%; height:3px;
+        background:linear-gradient(90deg, transparent, var(--green), transparent);
+        opacity:.85;
+    }
+    .brand{ display:flex; align-items:center; gap:12px; min-width:0; }
+    .brand-text .t1{
+        font-size:18px; font-weight:bold;
+        background:linear-gradient(90deg, var(--green-dark), var(--green));
+        -webkit-background-clip:text; background-clip:text;
+        -webkit-text-fill-color:transparent;
+        line-height:1.2; letter-spacing:-.01em;
+    }
+    .brand-text .t2{ font-size:11px; color:var(--dim); margin-top:1px; }
+    .chain-badge{
+        display:flex; align-items:center; gap:8px;
+        font-size:12px; color:var(--green-dark);
+        padding:6px 14px;
+        border:1px solid var(--green-bd);
+        border-radius:999px;
+        background:var(--green-bg);
+        flex:0 0 auto; font-weight:500;
+    }
+    .chain-badge i{
+        display:inline-block; width:8px; height:8px; border-radius:50%;
+        background:var(--green);
+        box-shadow:0 0 10px var(--green-glow);
+        animation:pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse{ 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    /* ============== گرید اصلی ============== */
+    .grid{
+        flex:1 1 auto;
+        display:grid;
+        grid-template-columns:minmax(0, 340px) minmax(0, 1fr);
+        gap:12px;
+        min-height:0;
+    }
+
+    /* ============== ستون کناری (چپ) ============== */
+    .side{
+        display:flex;
+        flex-direction:column;
+        gap:12px;
+        min-height:0;
+    }
+
+    /* کارت وضعیت بزرگ */
+    .status-card{
+        position:relative;
+        padding:22px 22px;
+        background:var(--panel);
+        backdrop-filter:blur(16px);
+        -webkit-backdrop-filter:blur(16px);
+        border:1px solid var(--green-bd);
+        border-radius:18px;
+        box-shadow:var(--shadow-2);
+        overflow:hidden;
+        flex:0 0 auto;
+        transition:border-color .3s, background-color .3s;
+    }
+    .status-card::before{
+        content:"";
+        position:absolute; top:0; right:0;
+        width:100%; height:3px;
+        background:linear-gradient(90deg, var(--green), var(--green-light), var(--green));
+        background-size:200% 100%;
+        animation:flow 3s linear infinite;
+    }
+    @keyframes flow{
+        0%{ background-position:0% 0; }
+        100%{ background-position:200% 0; }
+    }
+    .status-card.warn{
+        border-color:var(--warn-bd);
+        background:linear-gradient(180deg, var(--warn-bg), var(--panel));
+    }
+    .status-card.warn::before{
+        background:linear-gradient(90deg, var(--warn), #fbbf24, var(--warn));
+        background-size:200% 100%;
+    }
+    .status-card.bad{
+        border-color:var(--danger-bd);
+        background:linear-gradient(180deg, var(--danger-bg), var(--panel));
+    }
+    .status-card.bad::before{
+        background:linear-gradient(90deg, var(--danger), #f87171, var(--danger));
+        background-size:200% 100%;
+    }
+
+    .status-icon-wrap{
+        position:relative;
+        width:64px; height:64px;
+        display:flex; align-items:center; justify-content:center;
+        margin-bottom:14px;
+    }
+    .status-icon-wrap::before,
+    .status-icon-wrap::after{
+        content:"";
+        position:absolute; inset:0;
+        border-radius:50%;
+        border:2px solid var(--green-bd);
+        animation:ring 2.4s ease-out infinite;
+    }
+    .status-icon-wrap::after{ animation-delay:1.2s; }
+    @keyframes ring{
+        0%{ transform:scale(.9); opacity:.8; }
+        100%{ transform:scale(1.6); opacity:0; }
+    }
+    .status-icon{
+        position:relative;
+        width:64px; height:64px;
+        display:flex; align-items:center; justify-content:center;
+        border-radius:50%;
+        background:linear-gradient(135deg, var(--green), var(--green-dark));
+        box-shadow:0 6px 20px var(--green-glow);
+        color:#fff;
+        font-size:26px;
+        font-weight:bold;
+        z-index:1;
+    }
+    .status-card.warn .status-icon{
+        background:linear-gradient(135deg, var(--warn), var(--warn-strong));
+        box-shadow:0 6px 20px rgba(180,83,9,.35);
+    }
+    .status-card.warn .status-icon-wrap::before,
+    .status-card.warn .status-icon-wrap::after{ border-color:var(--warn-bd); }
+    .status-card.bad .status-icon{
+        background:linear-gradient(135deg, var(--danger), #b91c1c);
+        box-shadow:0 6px 20px rgba(220,38,38,.35);
+    }
+    .status-card.bad .status-icon-wrap::before,
+    .status-card.bad .status-icon-wrap::after{ border-color:var(--danger-bd); }
+
+    .status-label{
+        font-size:11px;
+        color:var(--dim);
+        text-transform:uppercase;
+        letter-spacing:.08em;
+        margin-bottom:4px;
+        font-weight:500;
+    }
+    #state{
+        font-family:Consolas, "Liberation Mono", monospace;
+        font-size:15px;
+        font-weight:600;
+        color:var(--green-dark);
+        line-height:1.5;
+        margin:0;
+        direction:ltr;
+        text-align:right;
+        word-break:break-word;
+    }
+    .status-card.warn #state{ color:var(--warn-strong); }
+    .status-card.bad  #state{ color:var(--danger); }
+
+    .status-time{
+        margin-top:14px;
+        padding-top:14px;
+        border-top:1px dashed var(--line-strong);
+        display:flex;
+        justify-content:space-between;
+        font-size:11.5px;
+        color:var(--dim);
+        font-family:Consolas, "Liberation Mono", monospace;
+        direction:ltr;
+    }
+    .status-time b{
+        color:var(--green-dark);
+        font-weight:600;
+    }
+
+    .indeterminate{
+        margin-top:14px;
+        height:6px;
+        border-radius:3px;
+        background:rgba(6,54,38,.08);
+        overflow:hidden;
+        position:relative;
+    }
+    .indeterminate::before{
+        content:"";
+        position:absolute;
+        top:0; left:-40%;
+        width:40%; height:100%;
+        background:linear-gradient(90deg, transparent, var(--green), var(--green-light), transparent);
+        border-radius:3px;
+        animation:slide 1.6s ease-in-out infinite;
+    }
+    @keyframes slide{
+        0%{ left:-40%; }
+        100%{ left:100%; }
+    }
+    .status-card.is-done .indeterminate{ display:none; }
+    .status-card.warn .indeterminate::before,
+    .status-card.bad  .indeterminate::before{
+        animation-play-state:paused;
+        opacity:.3;
+    }
+
+    /* ============== ستون مراحل زنجیره ============== */
+    .steps{
+        flex:1 1 auto;
+        padding:18px 20px;
+        background:var(--panel);
+        backdrop-filter:blur(16px);
+        -webkit-backdrop-filter:blur(16px);
+        border:1px solid var(--line);
+        border-radius:18px;
+        box-shadow:var(--shadow-1);
+        overflow-y:auto;
+        min-height:0;
+    }
+    .steps h3{
+        margin:0 0 14px;
+        font-size:13px;
+        color:var(--green-dark);
+        font-weight:600;
+        display:flex;
+        align-items:center;
+        gap:8px;
+    }
+    .steps h3::before{
+        content:"";
+        display:inline-block;
+        width:4px; height:14px;
+        background:linear-gradient(180deg, var(--green), var(--green-dark));
+        border-radius:2px;
+    }
+
+    .step{
+        display:flex;
+        align-items:flex-start;
+        gap:10px;
+        padding:8px 0;
+        position:relative;
+        font-size:12.5px;
+        color:var(--muted);
+        line-height:1.6;
+    }
+    .step:not(:last-child)::after{
+        content:"";
+        position:absolute;
+        top:28px;
+        right:9px;
+        bottom:-2px;
+        width:2px;
+        background:var(--line-strong);
+        border-radius:1px;
+    }
+    .step.done:not(:last-child)::after{ background:var(--green-bd); }
+
+    .step-dot{
+        flex:0 0 auto;
+        width:20px; height:20px;
+        border-radius:50%;
+        border:2px solid var(--line-strong);
+        background:#fff;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:10px;
+        color:var(--dim);
+        font-weight:bold;
+        position:relative;
+        z-index:1;
+        transition:all .3s;
+    }
+    .step.active .step-dot{
+        border-color:var(--green);
+        background:var(--green);
+        color:#fff;
+        box-shadow:0 0 0 4px var(--green-bg);
+        animation:step-pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes step-pulse{
+        0%,100%{ box-shadow:0 0 0 4px var(--green-bg); }
+        50%{ box-shadow:0 0 0 8px rgba(16,185,129,.06); }
+    }
+    .step.done .step-dot{
+        border-color:var(--green);
+        background:var(--green);
+        color:#fff;
+    }
+    .step.fail .step-dot{
+        border-color:var(--danger);
+        background:var(--danger);
+        color:#fff;
+    }
+
+    .step-body{ flex:1 1 auto; min-width:0; }
+    .step-title{
+        display:block;
+        font-size:12.5px;
+        color:var(--text);
+        font-weight:500;
+        transition:color .2s;
+    }
+    .step.active .step-title{ color:var(--green-dark); font-weight:600; }
+    .step.done .step-title{ color:var(--green-dark); }
+    .step.fail .step-title{ color:var(--danger); }
+    .step-desc{
+        display:block;
+        font-size:11px;
+        color:var(--dim);
+        margin-top:1px;
+        direction:ltr;
+        text-align:right;
+        font-family:Consolas, "Liberation Mono", monospace;
+    }
+
+    /* ============== ستون راست: نکات + کنسول ============== */
+    .right-col{
+        display:flex;
+        flex-direction:column;
+        gap:12px;
+        min-height:0;
+    }
+
+    /* باکس نکات مهم */
+    .notes-box{
+        position:relative;
+        padding:14px 18px;
+        background:linear-gradient(180deg, rgba(254,243,199,.96), rgba(255,251,235,.92));
+        backdrop-filter:blur(14px);
+        -webkit-backdrop-filter:blur(14px);
+        border:1px solid var(--warn-bd);
+        border-radius:16px;
+        box-shadow:var(--shadow-1);
+        display:flex;
+        align-items:flex-start;
+        gap:14px;
+        flex:0 0 auto;
+        overflow:hidden;
+    }
+    .notes-box::before{
+        content:"";
+        position:absolute; top:0; right:0;
+        width:100%; height:3px;
+        background:linear-gradient(90deg, transparent, var(--warn), transparent);
+        opacity:.7;
+    }
+    .notes-icon{
+        flex:0 0 auto;
+        width:38px; height:38px;
+        display:flex; align-items:center; justify-content:center;
+        font-size:20px; font-weight:bold;
+        color:var(--warn-strong);
+        border:1px solid var(--warn-bd);
+        border-radius:10px;
+        background:rgba(251,191,36,.22);
+        margin-top:2px;
+    }
+    .notes-body{ flex:1 1 auto; min-width:0; }
+    .notes-title{
+        margin:0 0 6px;
+        font-size:13px;
+        color:var(--warn-strong);
+        font-weight:700;
+        display:flex;
+        align-items:center;
+        gap:8px;
+        flex-wrap:wrap;
+    }
+    .notes-title .update-date{
+        font-size:10.5px;
+        color:var(--warn-strong);
+        padding:2px 9px;
+        border:1px solid var(--warn-bd);
+        border-radius:6px;
+        background:rgba(255,255,255,.7);
+        font-weight:500;
+    }
+    .notes-list{
+        list-style:none;
+        margin:0;
+        padding:0;
+        display:flex;
+        flex-direction:column;
+        gap:3px;
+        font-size:12px;
+        color:#5a4632;
+        line-height:1.7;
+    }
+    .notes-list li{
+        position:relative;
+        padding-right:14px;
+    }
+    .notes-list li::before{
+        content:"";
+        position:absolute;
+        right:0;
+        top:8px;
+        width:5px;
+        height:5px;
+        border-radius:50%;
+        background:var(--warn);
+        box-shadow:0 0 4px rgba(180,83,9,.4);
+    }
+    .notes-list li b{
+        color:var(--warn-strong);
+        font-weight:600;
+        direction:ltr;
+        display:inline-block;
+    }
+
+    /* ============== کارت کنسول لاگ ============== */
+    .console-card{
+        flex:1 1 auto;
+        display:flex;
+        flex-direction:column;
+        padding:0;
+        background:var(--panel);
+        backdrop-filter:blur(16px);
+        -webkit-backdrop-filter:blur(16px);
+        border:1px solid var(--line);
+        border-radius:18px;
+        box-shadow:var(--shadow-2);
+        overflow:hidden;
+        min-height:0;
+    }
+    .console-head{
+        flex:0 0 auto;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        padding:12px 18px;
+        background:linear-gradient(180deg, rgba(236,253,245,.7), transparent);
+        border-bottom:1px solid var(--line);
+        gap:10px;
+    }
+    .console-title{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        font-size:13px;
+        font-weight:600;
+        color:var(--green-dark);
+    }
+    .console-dots{
+        display:flex;
+        gap:5px;
+    }
+    .console-dots span{
+        width:10px; height:10px;
+        border-radius:50%;
+        background:var(--line-strong);
+    }
+    .console-dots span:first-child{ background:#f87171; }
+    .console-dots span:nth-child(2){ background:#fbbf24; }
+    .console-dots span:nth-child(3){ background:var(--green); }
+    .console-badge{
+        font-size:10.5px;
+        color:var(--dim);
+        padding:3px 10px;
+        border:1px solid var(--line-strong);
+        border-radius:6px;
+        background:rgba(255,255,255,.7);
+        font-family:Consolas, "Liberation Mono", monospace;
+        direction:ltr;
+    }
+
+    #out{
+        flex:1 1 auto;
+        padding:16px 20px;
+        color:var(--text);
+        font-family:Consolas, "Liberation Mono", monospace;
+        font-size:12.5px;
+        line-height:1.55;
+        overflow-y:auto;
+        white-space:pre-wrap;
+        word-break:break-word;
+        direction:ltr;
+        text-align:left;
+        min-height:0;
+        background:rgba(255,255,255,.55);
+    }
+    #out::-webkit-scrollbar{ width:8px; }
+    #out::-webkit-scrollbar-track{ background:rgba(6,54,38,.04); border-radius:4px; }
+    #out::-webkit-scrollbar-thumb{
+        background:var(--green-bd);
+        border-radius:4px;
+    }
+    #out::-webkit-scrollbar-thumb:hover{ background:var(--green); }
+
+    /* ============== موبایل ============== */
+    @media (max-width:900px){
+        body{ background-attachment: scroll; overflow:auto; }
+        .wrap{
+            padding:8px 10px 30px;
+            width:min(100% - 20px, 700px);
+            height:auto;
+            min-height:100vh;
+        }
+        .grid{
+            grid-template-columns:1fr;
+            gap:10px;
+        }
+        .side{ gap:10px; }
+        .right-col{ gap:10px; }
+        .console-card{
+            height:55vh;
+            min-height:360px;
+        }
+        .status-card{ padding:18px 18px; }
+        #state{ font-size:13.5px; }
+        .header{ padding:10px 14px; border-radius:12px; }
+        .brand-text .t1{ font-size:15.5px; }
+        .chain-badge{ font-size:11px; padding:5px 10px; }
+        .notes-box{ padding:12px 14px; }
+        .notes-list{ font-size:11.5px; }
+    }
+    @media (max-width:520px){
+        .chain-badge{ display:none; }
+        .status-icon-wrap, .status-icon{ width:52px; height:52px; }
+        .status-icon{ font-size:22px; }
+        #out{ font-size:11.5px; }
+        .steps{ padding:14px 16px; }
+        .notes-box{ flex-direction:column; gap:8px; }
+        .notes-icon{ margin-top:0; }
+    }
+</style>
+</head>
+<body>
+    <div class="wrap">
+        <header class="header">
+            <div class="brand">
+                <div class="brand-text">
+                    <div class="t1">رنگو گیم</div>
+                    <div class="t2">اجرای جیلبریک</div>
+                </div>
+            </div>
+            <div class="chain-badge"><i></i>SlopKit Chain</div>
+        </header>
+
+        <div class="grid">
+
+            <!-- ستون چپ: وضعیت + مراحل -->
+            <aside class="side">
+
+                <div class="status-card" id="statusCard">
+                    <div class="status-icon-wrap">
+                        <div class="status-icon" id="statusIcon">⏳</div>
+                    </div>
+                    <div class="status-label">وضعیت فعلی</div>
+                    <div id="state">loading jailbreak...</div>
+
+                    <div class="status-time">
+                        <span>elapsed</span>
+                        <b id="elapsed">00:00</b>
+                    </div>
+
+                    <div class="indeterminate"></div>
+                </div>
+
+                <div class="steps">
+                    <h3>مراحل اجرا</h3>
+
+                    <div class="step" data-step="1">
+                        <span class="step-dot">1</span>
+                        <div class="step-body">
+                            <span class="step-title">بارگذاری زنجیره SlopKit</span>
+                            <span class="step-desc">loading chain</span>
+                        </div>
+                    </div>
+
+                    <div class="step" data-step="2">
+                        <span class="step-dot">2</span>
+                        <div class="step-body">
+                            <span class="step-title">آماده‌سازی اکسپلویت WebKit</span>
+                            <span class="step-desc">webKit primitive</span>
+                        </div>
+                    </div>
+
+                    <div class="step" data-step="3">
+                        <span class="step-dot">3</span>
+                        <div class="step-body">
+                            <span class="step-title">تزریق GoldHEN</span>
+                            <span class="step-desc">staging payload</span>
+                        </div>
+                    </div>
+
+                    <div class="step" data-step="4">
+                        <span class="step-dot">4</span>
+                        <div class="step-body">
+                            <span class="step-title">اجرای Payload</span>
+                            <span class="step-desc">PAYLOAD-RUNNING</span>
+                        </div>
+                    </div>
+                </div>
+
+            </aside>
+
+            <!-- ستون راست: نکات + کنسول -->
+            <div class="right-col">
+
+                <!-- باکس نکات مهم (بالای کنسول) -->
+                <section class="notes-box">
+                    <div class="notes-icon">!</div>
+                    <div class="notes-body">
+                        <h3 class="notes-title">
+                            نکات مهم قبل و بعد از جیلبریک
+                            <span class="update-date">تاریخ بروزرسانی: ۷ مهــــــر ۱۴۰۵</span>
+                        </h3>
+                        <ul class="notes-list">
+                            <li>در صورت مواجه شدن با خطا در جیلبریک، کنسول را ری‌استارت کنید و دوباره اقدام به جیلبریک کردن کنسول کنید.</li>
+                            <li>این جیلبریک برای کنسول‌هایی با فریمور <b>13.02 – 13.52</b> می‌باشد.</li>
+                            <li>پس از جیلبریک کنسول، با استفاده از دکمه <b>PS</b> روی دسته از مرورگر خارج شوید.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- کارت کنسول لاگ -->
+                <section class="console-card">
+                    <div class="console-head">
+                        <div class="console-title">
+                            <div class="console-dots"><span></span><span></span><span></span></div>
+                            console output
+                        </div>
+                        <div class="console-badge">live</div>
+                    </div>
+                    <div id="out"></div>
+                </section>
+
+            </div>
+
+        </div>
+    </div>
+
+<script type="module">import "./jb.js";</script>
+<script>
+// رنگو گیم: auto-reload محدود وقتی primitive شکست می‌خورد.
+// منطق اصلی jb.js/core.js دست‌نخورده باقی می‌ماند.
+(function () {
+    var KEY = "pspulse-1352-reloads";
+    var MAX = 2;
+    var WINDOW_MS = 10 * 60 * 1000;
+    var handled = false;
+    var statusCard = document.getElementById("statusCard");
+    var statusIcon = document.getElementById("statusIcon");
+    var elapsedEl  = document.getElementById("elapsed");
+    var startTime  = Date.now();
+    var lastState  = "";
+    var lastStep   = 0;
+
+    function readBudget() {
+        var rec = null;
+        try { rec = JSON.parse(sessionStorage.getItem(KEY) || "null"); } catch (e) { rec = null; }
+        var now = Date.now();
+        if (!rec || typeof rec.n !== "number" || (now - rec.t) > WINDOW_MS) return { n: 0, t: now };
+        return rec;
+    }
+    function spendBudget() {
+        var rec = readBudget();
+        rec.n++;
+        rec.t = Date.now();
+        try {
+            sessionStorage.setItem(KEY, JSON.stringify(rec));
+            var check = JSON.parse(sessionStorage.getItem(KEY) || "null");
+            if (check && check.n === rec.n) return rec;
+        } catch (e) {}
+        return null;
+    }
+    function successSeen(txt) {
+        var lines = txt.split("\n");
+        for (var i = lines.length - 1; i >= 0; i--) {
+            if (lines[i].indexOf("PAYLOAD-RUNNING") !== -1) {
+                return lines[i].indexOf("PROOF-OK") === 0;
+            }
+        }
+        return false;
+    }
+
+    function updateElapsed() {
+        var s = Math.floor((Date.now() - startTime) / 1000);
+        var mm = String(Math.floor(s / 60)).padStart(2, "0");
+        var ss = String(s % 60).padStart(2, "0");
+        if (elapsedEl) elapsedEl.textContent = mm + ":" + ss;
+    }
+    var elapsedTimer = setInterval(updateElapsed, 1000);
+
+    function detectStep(txt) {
+        var step = 1;
+        if (/primitive|webkit|groom|chain/i.test(txt)) step = 2;
+        if (/stage|payload|goldhen|inject/i.test(txt)) step = 3;
+        if (/PAYLOAD-RUNNING/i.test(txt)) step = 4;
+        return step;
+    }
+
+    function paintSteps(step, isFail, isDone) {
+        document.querySelectorAll(".step").forEach(function (el, idx) {
+            var n = idx + 1;
+            el.classList.remove("active", "done", "fail");
+            if (isDone) { el.classList.add("done"); return; }
+            if (isFail && n === step) { el.classList.add("fail"); return; }
+            if (n < step) { el.classList.add("done"); return; }
+            if (n === step && !isFail) el.classList.add("active");
+        });
+    }
+
+    function renderStatus(txt) {
+        if (!statusCard) return;
+        var st = document.getElementById("state");
+        var cur = st ? st.textContent : "";
+
+        if (successSeen(txt)) {
+            statusCard.classList.remove("warn", "bad");
+            statusCard.classList.add("is-done");
+            if (statusIcon) statusIcon.textContent = "✓";
+            paintSteps(4, false, true);
+            return;
+        }
+
+        var isFail = (cur === "threw") || /attempt-ceiling|FAIL/i.test(txt);
+        if (isFail) {
+            statusCard.classList.remove("warn");
+            statusCard.classList.add("bad");
+            if (statusIcon) statusIcon.textContent = "✕";
+            paintSteps(detectStep(txt), true, false);
+            return;
+        }
+
+        var step = detectStep(txt);
+        if (step !== lastStep) {
+            lastStep = step;
+            paintSteps(step, false, false);
+        }
+
+        if (/reload/i.test(cur)) {
+            statusCard.classList.remove("bad");
+            statusCard.classList.add("warn");
+            if (statusIcon) statusIcon.textContent = "↻";
+        } else {
+            statusCard.classList.remove("warn", "bad");
+            if (statusIcon) statusIcon.textContent = "⏳";
+        }
+    }
+
+    setInterval(function () {
+        try {
+            var st = document.getElementById("state");
+            var out = document.getElementById("out");
+            var txt = out ? out.textContent : "";
+
+            renderStatus(txt);
+
+            if (handled) return;
+            if (successSeen(txt)) {
+                try { sessionStorage.removeItem(KEY); } catch (e) {}
+                handled = true;
+                return;
+            }
+            if (!st || st.textContent !== "threw") return;
+            if (txt.indexOf("attempt-ceiling") === -1) return;
+            handled = true;
+            var rec = spendBudget();
+            if (!rec || rec.n > MAX) return;
+            st.textContent = "heap layout missed -- reloading for a fresh heap (" + rec.n + "/2)...";
+            st.className = "";
+            if (statusCard) {
+                statusCard.classList.remove("bad");
+                statusCard.classList.add("warn");
+            }
+            if (statusIcon) statusIcon.textContent = "↻";
+            setTimeout(function () { location.reload(); }, 2000);
+        } catch (e) { /* never break the exploit page */ }
+    }, 3000);
+})();
+</script>
+</body>
+</html>

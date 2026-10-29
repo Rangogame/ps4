@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" manifest="cache.manifest">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>رنگو گیم | هاست SlopKit — 11.00 تا 13.00</title>
+<link rel="icon" type="image/png" href="../../logo.png">
+<style>
+    :root{
+        --green:        #10b981;
+        --green-light:  #34d399;
+        --green-dark:   #047857;
+        --green-glow:   rgba(16,185,129,.28);
+        --green-bg:     rgba(16,185,129,.10);
+        --green-bd:     rgba(16,185,129,.35);
+
+        --bg:           #f6fbf8;
+        --panel:        rgba(255,255,255,.92);
+        --panel-2:      rgba(255,255,255,.98);
+        --line:         rgba(6,54,38,.10);
+        --line-strong:  rgba(6,54,38,.18);
+
+        --text:         #0c221a;
+        --muted:        #3f5a50;
+        --dim:          #6d8479;
+
+        --warn:         #b45309;
+        --warn-strong:  #92400e;
+        --warn-bg:      rgba(251,191,36,.14);
+        --warn-bd:      rgba(180,83,9,.35);
+
+        --danger:       #dc2626;
+        --danger-bg:    rgba(220,38,38,.10);
+        --danger-bd:    rgba(220,38,38,.35);
+
+        --shadow-1:     0 6px 18px rgba(6,54,38,.08);
+        --shadow-2:     0 14px 34px rgba(6,54,38,.12);
+    }
+
+    *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    html,body{ margin:0; padding:0; }
+
+    body{
+        background-image: url('../../bg.jpg');
+        background-position: center center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-color: var(--bg);
+
+        color:var(--text);
+        font-family:Tahoma, "Iranian Sans", Arial, sans-serif;
+        font-size:16px;
+        line-height:1.8;
+        min-height:100vh;
+        overflow-x:hidden;
+
+        display:flex;
+        flex-direction:column;
+    }
+    a{ color:inherit; text-decoration:none; }
+
+    .wrap{
+        max-width:1000px;
+        margin:0 auto;
+        padding:14px 14px 40px;
+        width:100%;
+        flex:1 0 auto;
+        display:flex;
+        flex-direction:column;
+    }
+
+    /* ============== هدر ============== */
+    .header{
+        display:flex; align-items:center; justify-content:space-between;
+        gap:12px;
+        padding:14px 22px;
+        background:var(--panel);
+        backdrop-filter:blur(16px);
+        -webkit-backdrop-filter:blur(16px);
+        border:1px solid var(--line);
+        border-radius:16px;
+        position:relative;
+        overflow:hidden;
+        box-shadow:var(--shadow-1);
+    }
+    .header::before{
+        content:"";
+        position:absolute; top:0; right:0;
+        width:100%; height:3px;
+        background:linear-gradient(90deg, transparent, var(--green), transparent);
+        opacity:.85;
+    }
+    .brand{ display:flex; align-items:center; gap:14px; min-width:0; }
+    .brand-text .t1{
+        font-size:20px;
+        font-weight:bold;
+        background:linear-gradient(90deg, var(--green-dark), var(--green));
+        -webkit-background-clip:text;
+        background-clip:text;
+        -webkit-text-fill-color:transparent;
+        line-height:1.2;
+        letter-spacing:-.01em;
+    }
+    .brand-text .t2{
+        font-size:11.5px;
+        color:var(--dim);
+        margin-top:2px;
+    }
+    .fw-badge{
+        display:flex; align-items:center; gap:8px;
+        font-size:12.5px;
+        color:var(--green-dark);
+        padding:6px 14px;
+        border:1px solid var(--green-bd);
+        border-radius:999px;
+        background:var(--green-bg);
+        flex:0 0 auto;
+        font-weight:500;
+        direction:ltr;
+    }
+    .fw-badge i{
+        display:inline-block; width:8px; height:8px; border-radius:50%;
+        background:var(--green);
+        box-shadow:0 0 10px var(--green-glow);
+        animation:pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse{ 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    /* ============== محتوا ============== */
+    .main{
+        flex:1 0 auto;
+        display:flex;
+        flex-direction:column;
+        padding:16px 0 0;
+    }
+
+    /* هیرو */
+    .hero{
+        margin-top:16px;
+        padding:38px 30px;
+        background:var(--panel);
+        backdrop-filter:blur(16px);
+        -webkit-backdrop-filter:blur(16px);
+        border:1px solid var(--line);
+        border-radius:20px;
+        position:relative;
+        overflow:hidden;
+        box-shadow:var(--shadow-2);
+    }
+    .hero::after{
+        content:"";
+        position:absolute; bottom:0; left:0;
+        width:100%; height:4px;
+        background:linear-gradient(90deg, transparent, var(--green), transparent);
+        opacity:.5;
+    }
+    .hero-content{ position:relative; z-index:1; }
+    .hero .kicker{
+        display:inline-block;
+        font-family:Consolas, "Liberation Mono", monospace;
+        font-size:12px;
+        color:var(--green-dark);
+        padding:6px 14px;
+        border:1px solid var(--green-bd);
+        border-radius:999px;
+        background:rgba(255,255,255,.7);
+        margin-bottom:16px;
+        font-weight:500;
+        direction:ltr;
+        letter-spacing:.02em;
+    }
+    .hero h1{
+        margin:0 0 14px;
+        font-size:40px;
+        line-height:1.15;
+        letter-spacing:-.02em;
+        color:var(--text);
+        font-weight:bold;
+    }
+    .hero h1 em{
+        font-style:normal;
+        background:linear-gradient(90deg, var(--green-dark), var(--green));
+        -webkit-background-clip:text;
+        background-clip:text;
+        -webkit-text-fill-color:transparent;
+        direction:ltr;
+        display:inline-block;
+    }
+    .hero .sub{
+        margin:0 0 20px;
+        font-size:16px;
+        color:var(--muted);
+        max-width:600px;
+    }
+    .boot{
+        list-style:none;
+        margin:0;
+        padding:0;
+        display:flex;
+        flex-direction:column;
+        gap:6px;
+    }
+    .boot li{
+        font-family:Consolas, "Liberation Mono", monospace;
+        font-size:13px;
+        color:var(--muted);
+        direction:ltr;
+        text-align:right;
+    }
+    .boot li b{ color:var(--green-dark); font-weight:bold; }
+    .boot li::before{
+        content:"";
+        display:inline-block;
+        width:6px; height:6px;
+        border-radius:50%;
+        background:var(--green);
+        margin-left:8px;
+        vertical-align:middle;
+        box-shadow:0 0 6px var(--green-glow);
+    }
+
+    /* ============== باکس وضعیت روتر ============== */
+    .status{
+        margin-top:14px;
+        padding:22px 22px;
+        background:var(--panel);
+        backdrop-filter:blur(16px);
+        -webkit-backdrop-filter:blur(16px);
+        border:1px solid var(--line);
+        border-radius:16px;
+        box-shadow:var(--shadow-1);
+        transition:border-color .25s, background-color .25s;
+    }
+    .status.is-ok{
+        border-color:var(--green);
+        background:linear-gradient(180deg, rgba(236,253,245,.98), var(--panel));
+    }
+    .status.is-warn{
+        border-color:var(--warn-bd);
+        background:linear-gradient(180deg, var(--warn-bg), var(--panel));
+    }
+    .status.is-bad{
+        border-color:var(--danger-bd);
+        background:linear-gradient(180deg, var(--danger-bg), var(--panel));
+    }
+
+    #state{
+        font-size:20px;
+        font-weight:600;
+        line-height:1.4;
+        margin:0 0 10px;
+        color:var(--green-dark);
+        display:flex;
+        align-items:center;
+        gap:10px;
+    }
+    #state::before{
+        content:"";
+        display:inline-block;
+        width:10px; height:10px;
+        border-radius:50%;
+        background:var(--green);
+        box-shadow:0 0 10px var(--green-glow);
+        flex:0 0 auto;
+    }
+    #state.warn{ color:var(--warn-strong); }
+    #state.warn::before{ background:var(--warn); box-shadow:0 0 10px rgba(180,83,9,.4); }
+    #state.bad{ color:var(--danger); }
+    #state.bad::before{ background:var(--danger); box-shadow:0 0 10px rgba(220,38,38,.4); }
+
+    #det{
+        font-size:13.5px;
+        color:var(--muted);
+        margin:0 0 8px;
+        font-family:Consolas, "Liberation Mono", monospace;
+        direction:ltr;
+        text-align:right;
+    }
+    #det b{ color:var(--green-dark); font-weight:600; }
+
+    #cache{
+        font-size:12.5px;
+        color:var(--dim);
+        margin:0;
+        min-height:16px;
+        font-family:Consolas, "Liberation Mono", monospace;
+        direction:ltr;
+        text-align:right;
+    }
+    #cache.cacheok{ color:var(--green-dark); font-weight:600; }
+
+    .ok{ color:var(--green-dark); }
+    .bad{ color:var(--danger); }
+    .warn{ color:var(--warn-strong); }
+
+    /* هشدار پایین باکس */
+    .notice{
+        margin-top:14px;
+        padding:10px 14px;
+        border-right:3px solid var(--warn);
+        background:rgba(251,191,36,.08);
+        border-radius:8px;
+        font-size:12.5px;
+        color:#5a4632;
+        line-height:1.7;
+    }
+    .notice b{
+        color:var(--warn-strong);
+        font-weight:600;
+        direction:ltr;
+        display:inline-block;
+    }
+
+    /* ============== NodePlay ============== */
+    .nodeplay{
+        margin-top:14px;
+        padding:18px 22px;
+        background:var(--panel);
+        backdrop-filter:blur(16px);
+        -webkit-backdrop-filter:blur(16px);
+        border:1px solid var(--green-bd);
+        border-radius:16px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px;
+        box-shadow:var(--shadow-1);
+        transition:all .15s;
+        position:relative;
+        overflow:hidden;
+    }
+    .nodeplay::before{
+        content:"";
+        position:absolute; top:0; right:0;
+        width:100%; height:3px;
+        background:linear-gradient(90deg, var(--green), var(--green-light));
+        opacity:.7;
+    }
+    .nodeplay:hover, .nodeplay:focus{
+        border-color:var(--green);
+        background:var(--panel-2);
+        transform:translateY(-2px);
+        box-shadow:var(--shadow-2);
+        outline:0;
+    }
+    .nodeplay:focus{
+        box-shadow:0 0 0 3px var(--green-glow), var(--shadow-2);
+    }
+    .np-label{
+        display:block;
+        font-size:11.5px;
+        color:var(--dim);
+        margin-bottom:2px;
+        font-weight:500;
+    }
+    .np-name{
+        display:block;
+        font-size:20px;
+        color:var(--text);
+        font-weight:600;
+        direction:ltr;
+        text-align:right;
+    }
+    .np-name b{ color:var(--green-dark); font-weight:bold; }
+    .np-open{
+        color:var(--green-dark);
+        font-size:13px;
+        font-weight:600;
+        padding:8px 14px;
+        border:1px solid var(--green-bd);
+        border-radius:10px;
+        background:var(--green-bg);
+        flex:0 0 auto;
+        direction:ltr;
+    }
+
+    /* ============== فوتر ============== */
+    .foot{
+        margin-top:26px;
+        padding:16px 20px;
+        background:var(--panel);
+        backdrop-filter:blur(16px);
+        -webkit-backdrop-filter:blur(16px);
+        border:1px solid var(--line);
+        border-radius:14px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px;
+        font-size:12.5px;
+        color:var(--muted);
+        box-shadow:var(--shadow-1);
+    }
+    .foot .copy b{
+        background:linear-gradient(90deg, var(--green-dark), var(--green));
+        -webkit-background-clip:text;
+        background-clip:text;
+        -webkit-text-fill-color:transparent;
+        font-weight:bold;
+    }
+    .foot a{ color:var(--green-dark); font-weight:500; }
+    .foot a:hover{ text-decoration:underline; }
+
+    /* ============== موبایل ============== */
+    @media (max-width:760px){
+        body{
+            font-size:15.5px;
+            background-attachment:scroll;
+        }
+        .wrap{ padding:10px 10px 30px; }
+        .header{ padding:12px 16px; border-radius:14px; }
+        .brand-text .t1{ font-size:17px; }
+        .fw-badge{ display:none; }
+        .hero{ padding:26px 20px; }
+        .hero h1{ font-size:28px; }
+        .hero .sub{ font-size:14.5px; }
+        .status{ padding:18px 16px; }
+        #state{ font-size:17px; }
+        .nodeplay{ flex-direction:column; align-items:flex-start; text-align:right; gap:10px; }
+        .foot{ flex-direction:column; text-align:center; }
+    }
+</style>
+</head>
+<body>
+    <div class="wrap">
+        <header class="header">
+            <div class="brand">
+                <div class="brand-text">
+                    <div class="t1">رنگو گیم</div>
+                    <div class="t2">هاست پلی‌استیشن ۴ — SlopKit</div>
+                </div>
+            </div>
+            <div class="fw-badge"><i></i>11.00 – 13.00</div>
+        </header>
+
+        <main class="main">
+            <section class="hero">
+                <div class="hero-content">
+                    <span class="kicker">$ ./launch --slopkit</span>
+                    <h1>هاست <em>11.00 – 13.00</em></h1>
+                    <p class="sub">هاست آفلاین SlopKit WebKit — انتخاب خودکار بین زنجیره Lapse و Poops بر اساس فریمور دستگاه.</p>
+                    <ul class="boot">
+                        <li>[ <b>ok</b> ] webkit chain ready</li>
+                        <li>[ <b>ok</b> ] offline cache ready</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="status" id="wrap">
+                <div id="state">در حال شناسایی فریمور دستگاه...</div>
+                <div id="det"></div>
+                <div id="cache"></div>
+            </section>
+
+            <a class="nodeplay" href="https://nodeplay.net/" target="_blank" rel="noopener">
+                <span>
+                    <span class="np-label">سرورهای بازی پریمیوم</span>
+                    <span class="np-name">Node<b>Play</b></span>
+                </span>
+                <span class="np-open">OPEN ↗</span>
+            </a>
+
+            <footer class="foot">
+                <div class="copy">
+            <b>رنگو گیم</b> © ۱۴۰۵ — تمامی حقوق محفوظ است.
+        </div>
+        <div class="designer">
+            طراح: <span>RangoGame</span>
+        </div>
+            </footer>
+        </main>
+    </div>
+
+<script>
+(function () {
+    var stateEl = document.getElementById("state");
+    var detEl = document.getElementById("det");
+    var cacheEl = document.getElementById("cache");
+    var statusEl = document.getElementById("wrap");
+
+    function setState(t, c) {
+        stateEl.textContent = t;
+        stateEl.className = c || "";
+        statusEl.classList.remove("is-ok", "is-warn", "is-bad");
+        if (c === "ok" || c === "") statusEl.classList.add("is-ok");
+        else if (c === "warn") statusEl.classList.add("is-warn");
+        else if (c === "bad") statusEl.classList.add("is-bad");
+    }
+    function setCache(t, ok) {
+        cacheEl.textContent = t;
+        cacheEl.className = ok ? "cacheok" : "";
+    }
+    function queryValue(name) {
+        var match = new RegExp("[?&]" + name + "=([^&]*)").exec(location.search);
+        return match ? decodeURIComponent(match[1]) : null;
+    }
+
+    var key = null, fwnum = null;
+    var m = /PlayStation\s+4[\/ ](\d+)\.(\d+)/.exec(navigator.userAgent);
+    if (m) {
+        var minor = parseInt(m[2], 16);
+        var ms = minor.toString(16);
+        if (ms.length < 2) ms = "0" + ms;
+        key = m[1] + "." + ms;
+        fwnum = parseInt(m[1], 10) * 100 + parseInt(ms, 10);
+    }
+
+    var bug = null, why = "";
+
+    // 11.01/11.02 → CSSFontFace branch
+    if (fwnum !== null && fwnum <= 1102 && fwnum !== 1100) {
+        window.location.replace("../../css/version-selector.html");
+        return;
+    }
+
+    var forced = queryValue("bug");
+    if (forced === "lapse" || forced === "poops") {
+        bug = forced;
+        why = "forced via ?bug=" + forced;
+    } else if (!key) {
+        why = "user-agent is not a PlayStation 4";
+    } else if (fwnum <= 1202) {
+        bug = "lapse"; why = key + " ≤ 12.02";
+    } else if (fwnum >= 1250) {
+        bug = "poops"; why = key + " ≥ 12.50";
+    } else {
+        why = key + " — no working bug (lapse ends at 12.02, poops needs 12.50)";
+    }
+
+    detEl.innerHTML = "firmware <b>" + (key || "unknown") + "</b>"
+        + " &middot; bug <b>" + (bug || "none") + "</b> &middot; " + why;
+
+    if (!bug) { setState("UNSUPPORTED FIRMWARE", "bad"); return; }
+
+    var target = (bug === "lapse" ? "run_lapse.html" : "run_poops.html")
+        + location.search;
+
+    function go() {
+        setState("loading " + bug + " chain...", "warn");
+        location.replace(target);
+    }
+
+    function waitForTap(msg, action) {
+        setState(msg, "warn");
+        function fire() {
+            window.removeEventListener("click", fire);
+            window.removeEventListener("keydown", fire);
+            action();
+        }
+        window.addEventListener("click", fire);
+        window.addEventListener("keydown", fire);
+    }
+
+    var ac = window.applicationCache;
+    if (!ac || !document.documentElement.hasAttribute("manifest")) {
+        go();
+    } else if (!navigator.onLine) {
+        setCache("offline -- from cache", true);
+        go();
+    } else if (ac.status === ac.IDLE) {
+        setCache("cached -- verifying up to date...");
+        setTimeout(function () {
+            if (ac.status === ac.CHECKING || ac.status === ac.DOWNLOADING) {
+                setCache("update found -- downloading...");
+                waitForDownload();
+            } else if (ac.status === ac.UPDATEREADY) {
+                try { ac.swapCache(); } catch (e) {}
+                setCache("update downloaded", true);
+                waitForTap("UPDATE READY -- press X or tap to reload & run",
+                           function () { location.reload(); });
+            } else {
+                setCache("cached", true);
+                go();
+            }
+        }, 3000);
+    } else if (ac.status === ac.UPDATEREADY) {
+        try { ac.swapCache(); } catch (e) {}
+        setCache("update downloaded", true);
+        waitForTap("UPDATE READY -- press X or tap to reload & run",
+                   function () { location.reload(); });
+    } else {
+        waitForDownload();
+    }
+
+    function waitForDownload() {
+        setCache("checking cache...");
+        ac.addEventListener("downloading",
+            function () { setCache("caching for offline (first run)..."); }, false);
+        ac.addEventListener("progress", function (e) {
+            if (e && e.total)
+                setCache("caching " + Math.round((e.loaded / e.total) * 100) + "%");
+        }, false);
+
+        ac.addEventListener("cached", function () {
+            setCache("cached for offline use", true);
+            waitForTap("CACHED (first run) -- press X or tap to run", go);
+        }, false);
+        ac.addEventListener("updateready", function () {
+            try { ac.swapCache(); } catch (e) {}
+            setCache("update downloaded", true);
+            waitForTap("UPDATE READY -- press X or tap to reload & run",
+                       function () { location.reload(); });
+        }, false);
+
+        ac.addEventListener("noupdate", function () {
+            setCache("cached -- offline ready", true);
+            go();
+        }, false);
+        ac.addEventListener("error", function () {
+            setCache("cache unavailable");
+            waitForTap("CACHE FAILED -- press X or tap to run anyway", go);
+        }, false);
+        ac.addEventListener("obsolete", function () {
+            setCache("cache obsolete");
+            waitForTap("CACHE OBSOLETE -- press X or tap to run", go);
+        }, false);
+    }
+})();
+</script>
+</body>
+</html>

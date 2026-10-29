@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" manifest="PSPulse5.manifest">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>رنگو گیم | کش آفلاین — v2.4b18.5</title>
+<link rel="icon" type="image/png" href="../logo.png">
+<script>history.replaceState(null, null, 'index5.html');</script>
+<style>
+    :root{
+        --green: #10b981; --green-light:#34d399; --green-dark:#047857;
+        --green-glow:rgba(16,185,129,.28); --green-bg:rgba(16,185,129,.10); --green-bd:rgba(16,185,129,.35);
+        --bg:#f6fbf8; --panel:rgba(255,255,255,.92); --panel-2:rgba(255,255,255,.98);
+        --line:rgba(6,54,38,.10); --line-strong:rgba(6,54,38,.18);
+        --text:#0c221a; --muted:#3f5a50; --dim:#6d8479;
+        --shadow-1:0 6px 18px rgba(6,54,38,.08); --shadow-2:0 14px 34px rgba(6,54,38,.12);
+    }
+    *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    html,body{ margin:0; padding:0; }
+    body{
+        background-image:url('../bg.jpg'); background-position:center center;
+        background-size:cover; background-repeat:no-repeat; background-attachment:fixed;
+        background-color:var(--bg);
+        color:var(--text);
+        font-family:Tahoma, "Iranian Sans", Arial, sans-serif;
+        font-size:16px; line-height:1.8; min-height:100vh; overflow:hidden;
+        display:flex; flex-direction:column;
+    }
+    a{ color:inherit; text-decoration:none; }
+    .wrap{
+        max-width:920px; margin:0 auto; padding:14px 14px 40px; width:100%;
+        flex:1 0 auto; display:flex; flex-direction:column;
+    }
+    .header{
+        display:flex; align-items:center; justify-content:space-between; gap:12px;
+        padding:14px 22px;
+        background:var(--panel); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+        border:1px solid var(--line); border-radius:16px;
+        position:relative; overflow:hidden; box-shadow:var(--shadow-1);
+    }
+    .header::before{
+        content:""; position:absolute; top:0; right:0; width:100%; height:3px;
+        background:linear-gradient(90deg, transparent, var(--green), transparent); opacity:.85;
+    }
+    .brand-text .t1{
+        font-size:20px; font-weight:bold;
+        background:linear-gradient(90deg, var(--green-dark), var(--green));
+        -webkit-background-clip:text; background-clip:text;
+        -webkit-text-fill-color:transparent; line-height:1.2;
+    }
+    .brand-text .t2{ font-size:11.5px; color:var(--dim); margin-top:2px; }
+    .cache-badge{
+        display:flex; align-items:center; gap:8px; font-size:12.5px;
+        color:var(--green-dark); padding:6px 14px;
+        border:1px solid var(--green-bd); border-radius:999px;
+        background:var(--green-bg); flex:0 0 auto; font-weight:500;
+    }
+    .cache-badge i{
+        display:inline-block; width:8px; height:8px; border-radius:50%;
+        background:var(--green); box-shadow:0 0 10px var(--green-glow);
+        animation:pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse{ 0%,100%{opacity:1} 50%{opacity:.3} }
+    .main{
+        flex:1 0 auto; display:flex; flex-direction:column; justify-content:center; padding:16px 0 0;
+    }
+    .hero{
+        margin-top:16px; padding:38px 30px;
+        background:var(--panel); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+        border:1px solid var(--line); border-radius:20px;
+        position:relative; overflow:hidden; box-shadow:var(--shadow-2);
+    }
+    .hero::after{
+        content:""; position:absolute; bottom:0; left:0; width:100%; height:4px;
+        background:linear-gradient(90deg, transparent, var(--green), transparent); opacity:.5;
+    }
+    .hero-content{ position:relative; z-index:1; }
+    .hero .kicker{
+        display:inline-block; font-family:Consolas, "Liberation Mono", monospace;
+        font-size:12px; color:var(--green-dark); padding:6px 14px;
+        border:1px solid var(--green-bd); border-radius:999px;
+        background:rgba(255,255,255,.7); margin-bottom:16px; font-weight:500;
+        direction:ltr; letter-spacing:.02em;
+    }
+    .hero h1{
+        margin:0 0 14px; font-size:40px; line-height:1.15;
+        letter-spacing:-.02em; color:var(--text); font-weight:bold;
+    }
+    .hero h1 em{
+        font-style:normal;
+        background:linear-gradient(90deg, var(--green-dark), var(--green));
+        -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .boot{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px; }
+    .boot li{
+        font-family:Consolas, "Liberation Mono", monospace;
+        font-size:13px; color:var(--muted); direction:ltr; text-align:right;
+    }
+    .boot li b{ color:var(--green-dark); font-weight:bold; }
+    .boot li::before{
+        content:""; display:inline-block; width:6px; height:6px; border-radius:50%;
+        background:var(--green); margin-left:8px; vertical-align:middle;
+        box-shadow:0 0 6px var(--green-glow);
+    }
+    .progress-container{
+        margin-top:14px; padding:22px 22px;
+        background:var(--panel); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+        border:1px solid var(--green-bd); border-radius:16px;
+        box-shadow:var(--shadow-1); position:relative; overflow:hidden;
+    }
+    .progress-container::before{
+        content:""; position:absolute; top:0; right:0; width:100%; height:3px;
+        background:linear-gradient(90deg, var(--green), var(--green-light)); opacity:.7;
+    }
+    .progress-label{
+        font-size:15px; font-weight:600; color:var(--green-dark);
+        margin-bottom:12px; display:flex; align-items:center; gap:8px;
+    }
+    .progress-label::before{
+        content:""; display:inline-block; width:8px; height:8px; border-radius:50%;
+        background:var(--green); box-shadow:0 0 10px var(--green-glow);
+        animation:pulse 2s ease-in-out infinite;
+    }
+    .progress-wrapper{
+        background:rgba(236,253,245,.6);
+        border:1px solid var(--line-strong); border-radius:10px; padding:6px;
+    }
+    .progress-bar{
+        background:rgba(255,255,255,.9); border:1px solid var(--line);
+        border-radius:6px; height:62px; overflow:hidden; position:relative;
+    }
+    .progress-fill{
+        background:linear-gradient(90deg, var(--green), var(--green-light));
+        height:100%; width:0%; border-radius:5px;
+        transition:width .3s ease-out; position:relative;
+    }
+    .progress-fill::after{
+        content:""; position:absolute; top:0; left:0; right:0; bottom:0;
+        background-image:linear-gradient(45deg,
+            rgba(255,255,255,.25) 25%, transparent 25%, transparent 50%,
+            rgba(255,255,255,.25) 50%, rgba(255,255,255,.25) 75%,
+            transparent 75%, transparent);
+        background-size:16px 16px; animation:stripe 1s linear infinite;
+    }
+    @keyframes stripe{ from{background-position:0 0} to{background-position:16px 0} }
+    .progress-text{
+        color:var(--green-dark); font-size:20px; font-weight:bold;
+        position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);
+        z-index:3; text-shadow:0 0 6px rgba(255,255,255,.95), 0 0 10px rgba(255,255,255,.8);
+        font-family:Consolas, "Liberation Mono", monospace; direction:ltr;
+    }
+    .status-message{
+        margin-top:12px; font-size:13px; color:var(--muted);
+        font-family:Consolas, "Liberation Mono", monospace;
+        direction:ltr; text-align:right;
+    }
+    .foot{
+        margin-top:26px; padding:16px 20px;
+        background:var(--panel); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+        border:1px solid var(--line); border-radius:14px;
+        display:flex; align-items:center; justify-content:space-between;
+        gap:12px; font-size:12.5px; color:var(--muted); box-shadow:var(--shadow-1);
+    }
+    .foot .copy b{
+        background:linear-gradient(90deg, var(--green-dark), var(--green));
+        -webkit-background-clip:text; background-clip:text;
+        -webkit-text-fill-color:transparent; font-weight:bold;
+    }
+    .foot a{ color:var(--green-dark); font-weight:500; }
+    .foot a:hover{ text-decoration:underline; }
+    @media (max-width:700px){
+        body{ background-attachment:scroll; font-size:15.5px; }
+        .wrap{ padding:10px 10px 30px; }
+        .header{ padding:12px 16px; border-radius:14px; }
+        .brand-text .t1{ font-size:17px; }
+        .cache-badge{ display:none; }
+        .hero{ padding:26px 20px; }
+        .hero h1{ font-size:28px; }
+        .progress-container{ padding:18px 16px; }
+        .progress-bar{ height:56px; }
+        .progress-text{ font-size:18px; }
+        .foot{ flex-direction:column; text-align:center; }
+    }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <header class="header">
+        <div class="brand-text">
+            <div class="t1">رنگو گیم</div>
+            <div class="t2">هاست پلی‌استیشن ۴ — 9.00 تا 9.60 (پایدار)</div>
+        </div>
+        <div class="cache-badge"><i></i>کش آفلاین</div>
+    </header>
+
+    <main class="main">
+        <section class="hero">
+            <div class="hero-content">
+                <span class="kicker">$ ./cache --install --stable</span>
+                <h1>بارگذاری <em>کش آفلاین</em></h1>
+                <ul class="boot">
+                    <li>[ <b>ok</b> ] psfree 1.7 chain ready</li>
+                    <li>[ <b>..</b> ] downloading host files</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="progress-container">
+            <div class="progress-label" id="progress">در حال بارگذاری — لطفاً صبر کنید</div>
+            <div class="progress-wrapper">
+                <div class="progress-bar" id="myProgress">
+                    <div class="progress-fill" id="myBar"></div>
+                    <div class="progress-text" id="progressText">0%</div>
+                </div>
+            </div>
+            <div class="status-message" id="statusMsg">Initializing cache system...</div>
+        </section>
+    </main>
+
+    <footer class="foot">
+        <div class="copy">
+            <b>رنگو گیم</b> © ۱۴۰۵ — تمامی حقوق محفوظ است.
+        </div>
+        <div class="designer">
+            طراح: <span>RangoGame</span>
+        </div>
+    </footer>
+</div>
+
+<script>
+if (window.applicationCache.status == 2) { localStorage.is755BCached = true; }
+window.applicationCache.ondownloading = function () {
+    document.getElementById("progress").innerHTML = "Page Caching Started!!";
+    localStorage.is755BCached = false;
+};
+window.applicationCache.onprogress = function (a) {
+    const progress = Math.round(100 * (a.loaded / a.total));
+    document.getElementById("myBar").style.width = progress + "%";
+    document.getElementById("progressText").innerHTML = progress + "%";
+};
+window.applicationCache.oncached = function () {
+    document.getElementById("progress").innerHTML = "Page Cached Successfully!!!";
+    localStorage.is755BCached = true;
+    setTimeout(function () { window.location.reload("myBar"); }, 1500);
+};
+window.applicationCache.onupdateready = function () {
+    document.getElementById("progress").innerHTML = "Update Cache Successfully!!!";
+    localStorage.is755BCached = true;
+    setTimeout(function () { window.location.reload("myBar"); }, 1500);
+};
+window.applicationCache.onnoupdate = function () { window.location.replace("index5.html"); };
+window.applicationCache.onerror = function () { window.location.replace("index5.html"); };
+
+var width = 0;
+function frame1() {
+    var elem = document.getElementById("myBar");
+    var text = document.getElementById("progressText");
+    var i = 0;
+    var id = setInterval(fra, 10);
+    function fra() {
+        if (i < 10 && width < 100) {
+            width++;
+            elem.style.width = width + "%";
+            text.innerHTML = width + "%";
+        }
+        i++;
+    }
+}
+</script>
+</body>
+</html>
