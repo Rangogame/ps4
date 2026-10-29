@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" manifest="PSPulse5.cache">
+<head>
+    <link rel="icon" type="image/png" href="../pspulse.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رنگو گیم // بارگذاری کش آفلاین / 2.4b18.5</title>
+    <script>history.replaceState(null, null, 'index5.html');</script>
+    <style>
+        :root{
+            --green:#10b981; --green-light:#34d399; --green-dark:#047857;
+            --green-glow:rgba(16,185,129,.28); --green-bg:rgba(16,185,129,.10); --green-bd:rgba(16,185,129,.35);
+            --bg:#f6fbf8; --panel:rgba(255,255,255,.92); --panel-2:rgba(255,255,255,.98);
+            --line:rgba(6,54,38,.10); --line-strong:rgba(6,54,38,.18);
+            --text:#0c221a; --muted:#3f5a50; --dim:#6d8479;
+            --shadow-1:0 6px 18px rgba(6,54,38,.08); --shadow-2:0 14px 34px rgba(6,54,38,.12);
+        }
+        *{box-sizing:border-box;margin:0;padding:0}
+        html{background:var(--bg)}
+        html,body{min-height:100%}
+        body{
+            background-image:url('../bg.jpg');background-position:center center;background-size:cover;
+            background-repeat:no-repeat;background-attachment:fixed;background-color:var(--bg);
+            color:var(--text);font-family:Tahoma,"Iranian Sans",Arial,sans-serif;
+            font-size:16px;line-height:1.8;min-height:100vh;overflow:hidden;
+            -webkit-font-smoothing:antialiased;
+        }
+        a{color:inherit;text-decoration:none}
+        .wrap{
+            display:flex;flex-direction:column;justify-content:center;
+            max-width:800px;margin:0 auto;padding:14px 14px 40px;min-height:100vh;
+        }
+
+        .header{
+            position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;
+            padding:14px 22px;background:var(--panel);
+            -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+            border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-1);
+        }
+        .header::before{
+            content:"";position:absolute;top:0;left:0;right:0;height:3px;
+            background:linear-gradient(90deg,transparent,var(--green),transparent);
+        }
+        .brand .t1{
+            display:block;line-height:1.2;font-size:20px;font-weight:bold;letter-spacing:-.02em;
+            background:linear-gradient(135deg,var(--green-dark),var(--green));
+            -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+        }
+        .brand .t2{display:block;margin-top:2px;font-size:11.5px;color:var(--dim)}
+        .live{
+            display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;
+            border:1px solid var(--green-bd);background:var(--green-bg);color:var(--green-dark);
+            font-size:12.5px;font-weight:500;
+        }
+        .live::before{
+            content:"";width:8px;height:8px;border-radius:50%;background:var(--green);
+            box-shadow:0 0 10px var(--green-glow);animation:pulse 2.4s ease-in-out infinite;
+        }
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+        .hero{
+            position:relative;overflow:hidden;margin-top:16px;padding:32px 30px;
+            background:var(--panel);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+            border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-2);
+        }
+        .hero::after{
+            content:"";position:absolute;bottom:0;left:0;right:0;height:4px;
+            background:linear-gradient(90deg,transparent,var(--green),transparent);opacity:.5;
+        }
+        .tag{
+            display:inline-block;margin-bottom:16px;padding:6px 14px;border:1px solid var(--green-bd);
+            border-radius:999px;background:rgba(255,255,255,.7);color:var(--green-dark);
+            font-size:12px;font-weight:500;
+        }
+        .hero h1{margin:0 0 12px;font-size:34px;font-weight:bold;line-height:1.2;letter-spacing:-.02em}
+        .hero h1 em{
+            font-style:normal;
+            background:linear-gradient(135deg,var(--green-dark),var(--green));
+            -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+        }
+        .hero p{margin:0;font-size:14.5px;color:var(--muted)}
+
+        .progress-wrap{
+            margin-top:20px;padding:20px 22px;background:var(--panel);
+            -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+            border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-1);
+        }
+        .progress-label{margin-bottom:10px;color:var(--green-dark);font-size:13.5px;font-weight:600}
+        .progress-track{
+            height:62px;border-radius:12px;overflow:hidden;position:relative;
+            background:rgba(236,253,245,.9);border:1px solid var(--line-strong);
+        }
+        .progress-fill{
+            height:100%;width:0;
+            background:linear-gradient(90deg,var(--green),var(--green-light));
+            box-shadow:0 0 20px var(--green-glow);
+            transition:width .25s ease;
+        }
+        .progress-text{
+            position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+            color:var(--text);font-size:18px;font-weight:bold;z-index:3;
+            text-shadow:0 1px 4px rgba(255,255,255,.9),0 0 8px rgba(255,255,255,.7);
+        }
+        .status-message{margin-top:12px;color:var(--muted);font-size:13px}
+
+        .foot{
+            display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;
+            margin-top:16px;padding:14px 20px;background:var(--panel);
+            -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+            border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-1);
+            color:var(--muted);font-size:12.5px;text-align:center;
+        }
+        .foot b{
+            background:linear-gradient(135deg,var(--green-dark),var(--green));
+            -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+        }
+
+        @media (max-width:640px){
+            body{font-size:15px;background-attachment:scroll;overflow:auto}
+            .wrap{padding:10px 10px 30px}
+            .header{padding:12px 16px;border-radius:14px}
+            .brand .t1{font-size:17px}
+            .live{display:none}
+            .hero{padding:26px 20px}
+            .hero h1{font-size:26px}
+            .progress-track{height:54px}
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+
+        <header class="header">
+            <div class="brand">
+                <span class="t1">رنگو گیم</span>
+                <span class="t2">هاست پلی‌استیشن ۴</span>
+            </div>
+            <span class="live">کش آفلاین</span>
+        </header>
+
+        <section class="hero">
+            <span class="tag">CACHE · GoldHEN v2.4b18.5</span>
+            <h1>در حال بارگذاری <em>کش آفلاین</em></h1>
+            <p>لطفاً صبر کنید تا فایل‌های هاست برای اجرای آفلاین ذخیره شوند.</p>
+        </section>
+
+        <section class="progress-wrap">
+            <div class="progress-label" id="progress">در حال بارگذاری… لطفاً صبر کنید</div>
+            <div class="progress-track">
+                <div class="progress-fill" id="myBar"></div>
+                <div class="progress-text" id="progressText">۰٪</div>
+            </div>
+            <div class="status-message">در حال راه‌اندازی سیستم کش…</div>
+        </section>
+
+        <footer class="foot">
+            <span>© ۱۴۰۵ — <b>رنگو گیم</b> — تمامی حقوق محفوظ است.</span>
+        </footer>
+    </div>
+
+    <script>
+        var ac = window.applicationCache;
+        if (ac && ac.status == 2) { localStorage.is755BCached = true; }
+        if (ac) {
+            ac.ondownloading = function () {
+                document.getElementById("progress").innerHTML = "شروع کش صفحه…";
+                localStorage.is755BCached = false;
+            };
+            ac.onprogress = function (a) {
+                if (!a || !a.total) return;
+                var progress = Math.round(100 * (a.loaded / a.total));
+                document.getElementById("myBar").style.width = progress + "%";
+                document.getElementById("progressText").innerHTML = progress + "٪";
+            };
+            ac.oncached = function () {
+                document.getElementById("progress").innerHTML = "کش با موفقیت ذخیره شد!";
+                localStorage.is755BCached = true;
+                setTimeout(function () { window.location.reload(); }, 1500);
+            };
+            ac.onupdateready = function () {
+                try { ac.swapCache(); } catch (e) {}
+                document.getElementById("progress").innerHTML = "کش با موفقیت به‌روزرسانی شد!";
+                localStorage.is755BCached = true;
+                setTimeout(function () { window.location.reload(); }, 1500);
+            };
+            ac.onnoupdate = function () { window.location.replace("index5.html"); };
+            ac.onerror = function () { window.location.replace("index5.html"); };
+        }
+    </script>
+</body>
+</html>
